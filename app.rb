@@ -25,10 +25,25 @@ set :views, File.dirname(__FILE__)
 set :ignored_dirs, %w[tmp log config public bin]
 
 before do
+  @toc = toc
   @menu = Dir.glob("./*/").map do |file|
     next if settings.ignored_dirs.any? {|ignore| /#{ignore}/i =~ file}
     file.split('/')[1]
   end.compact.sort
+end
+
+helpers do
+  def toc
+    temp = Dir.glob("./**/*.md").map {|path| path[2..-1].split("/") }.group_by do |folder, md|
+      folder
+    end
+    # remove duplicates and flatten the values array
+    temp.update(temp) do |folder, file|
+      file = (file.flatten.uniq - [folder]).map do |f|
+        f[0...-3]
+      end
+    end 
+  end
 end
 
 get '/' do
@@ -71,6 +86,7 @@ html
     meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
     meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
     title Sinatra Recipes
+    link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css"
     link rel="stylesheet" type="text/css" href="/style.css"
     link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css"
     link rel="stylesheet" type="text/css" href="/stylesheets/chosen.css"
@@ -78,50 +94,54 @@ html
     script src="/javascripts/scale.fix.js"
     script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"
     script src="/javascripts/chosen.jquery.min.js"
-    javascript:
-      $(document).ready(function(){
-        $("#selectNav").chosen().change(function(e){
-          window.location.href = this.options[this.selectedIndex].value;
-        });
-      });
 
   body
     a name="top"
     .wrapper
       #header
         a href="/"
-          img id="logo" src="https://github.com/sinatra/resources/raw/master/logo/sinatra-classic-156.png"
-          h1 Sinatra Recipes
-        h2 Community contributed recipes and techniques
-        nav
-          select#selectNav.chosen data-placeholder="Select a topic"
-            option
-            - @menu.each do |me|
-              option value="/p/#{me}?#article" 
-                #{me.capitalize.sub('_', ' ')}
+          #logo
+            img id="logo" src="https://github.com/sinatra/resources/raw/master/logo/sinatra-classic-156.png"
+          #logoname
+            h1 Sinatra Recipes
+            h2 Community contributed recipes and techniques
+              
+      div.clear
 
       #content
         #post
           == yield
-          - if @children
-            ul
-              - @children.each do |child|
-                li
-                  a href="/p/#{params[:topic]}/#{child}?#article"
-                    == child.capitalize.sub('_', ' ')
-
-          - if @readme
-            #footer
-              h2 Did we miss something?
-              p
-               | It's very possible we've left something out, that's why we need your help!
-               | This is a community driven project after all. Feel free to fork the project 
-               | and send us a pull request to get your recipe or tutorial included in the book. 
-              p 
-               | See the <a href="http://github.com/sinatra/sinatra-recipes#readme">README</a> 
-               | for more details.
-
-          - if @contributors
+      #toc
+        - if @toc
+          dl
+            - @toc.each do |k,v|
+              dh 
+                a href="/p/#{k.to_sym}"
+                  == k.capitalize.sub('_', ' ')
+              - v.each do |value|
+                dd 
+                  a href="/p/#{k.to_sym}/#{value}?#article"
+                    == value.capitalize.sub('_', ' ')
+                
+        - if @children
+          ul
+            - @children.each do |child|
+              li
+                a href="/p/#{params[:topic]}/#{child}?#article"
+                  == child.capitalize.sub('_', ' ')
+       
+      #footer
+        - if @readme
+          h2 Did we miss something?
+          p
+           | It's very possible we've left something out, that's why we need your help!
+           | This is a community driven project after all. Feel free to fork the project 
+           | and send us a pull request to get your recipe or tutorial included in the book. 
+          p 
+           | See the <a href="http://github.com/sinatra/sinatra-recipes#readme">README</a> 
+           | for more details.
+        - if @contributors
+          #contributors
             h2 Contributors
             p 
               | These recipes are provided by the following outsanding members of the Sinatra 
@@ -131,8 +151,6 @@ html
                 dt 
                   a href="http://github.com/#{contributor["login"]}"
                     img src="http://www.gravatar.com/avatar/#{contributor["gravatar_id"]}?s=50"
-          .small
-            a href="#top" Top
 
 @@ style
 body
@@ -140,12 +158,26 @@ body
   margin: 0 auto
   padding: 0 10px
   max-width: 800px
+  font-size: 0.85em
+  line-height: 1.5em
 
 h1, h2, h3, h4, h5
-  font-family: georgia, 'bitstream vera serif', serif
+  font-family: Georgia, 'bitstream vera serif', serif
   font-weight: normal
   font-size: 2em
-  line-height: 160%
+  margin: 50px 0px 20px
+  line-height: 1.15em
+
+pre, code, tt
+  padding: 10px
+  overflow: visible
+  overflow-Y: hidden
+  background: #F6F6F6
+  font-family: Monaco, monospace
+  font-size: 0.9em
+
+code, tt
+  padding: 3px
 
 a:link, a:visited
   color: #3F3F3F
@@ -157,33 +189,37 @@ a:hover, a:active
   font-size: .7em
 
 #header
-  margin: 10px 0px
+  margin: 30px 0px
+  
   a
-    text-decoration: none
-  h1
     float: left
-    width: 200px
+    text-decoration: none
+    overflow: hidden
+    
+  #logo
+    width: 100px
+    float: left
+    margin: 0 15px 0 0
+  #logoname
+    float: right
+    margin-top: 15px 
+  h1
     font-size: 2.65em
-    line-height: .75em
+    margin: 0 0
   h2
-    text-align: right
     font-style: oblique
     font-size: 1em
-    float: right
-    width: 450px
-  img
-    float: left
-    width: 100px
-    margin: 20px 15px 0px 0px
-    border: 0
+    margin: 10px 0 0 0
   nav
-    width: 450px
     float: right
-    #selectNav
-      width: 100%
+    width: 100%
+
+.clear
+  clear: both
 
 #contributors dt
   display: inline-block
+
 
 #children
   clear: both
@@ -193,17 +229,18 @@ a:hover, a:active
     height: 40px
 
 #content
-  clear: both
-  pre
-    padding: 10px
-    overflow: auto
-    overflow-Y: hidden
-    background: #F6F6F6
-    line-height: 100%
+  margin-top: 30px
+  width: 60%
+  float: left
 
-#post
-  line-height: 110%
+#toc
+  float: left
+  margin-top: 80px
+  width: 30%
+  font-size: 0.9em
+  padding-left: 50px
 
 #footer
-  clear: both
+  float: left
   margin-top: 20px
+  width: 60%
