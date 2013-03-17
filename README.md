@@ -14,11 +14,9 @@ and create a home for user contributed recipes and documentation to take form.
 ## How can I help?
 
 Got a recipe or tutorial for [Sinatra][sinatra]? Awesome, this is
-the first place you should go if you're looking to contribute.
-
-Once you have [forked the project][github-forking] send a [pull
-request][github-pull-requests], just be sure to follow the [styling
-guidelines][style-guidelines]. 
+the first place you should go if you're looking to contribute. Once you 
+have [forked the project][github-forking] send a [pull request][github-pull-requests], 
+just be sure to follow the [styling guidelines][style-guidelines]. 
 
 You can also get a hold of us on [irc][irc] or the [mailinglist][mailinglist].
 
