@@ -1,7 +1,6 @@
-Ohm
-------------
+# Ohm
 
-[Ohm](http://ohm.keyvalue.org/) is an object hash-mapping library for 
+[Ohm](http://ohm.keyvalue.org/) is an object hash-mapping library for
 the [Redis](http://redis.io/) database.
 
 Require the Ohm gem in your app:
@@ -48,11 +47,10 @@ get '/posts/:title' do
 end
 ```
 
-This will render ./views/index.erb:
+This will render `./views/index.erb`:
 
-```ruby
+```erb
 <% for post in @posts %>
   <h1><%= post.title %></h1>
 <% end %>
 ```
-

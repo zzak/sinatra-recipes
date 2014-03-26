@@ -1,5 +1,4 @@
-DataMapper
-----------
+# DataMapper
 
 Start out by getting the DataMapper gem if you don't already have it, and then
 making sure it's in your application. A call to `setup` as usual will get the
@@ -40,9 +39,9 @@ get '/' do
 end
 ```
 
-Finally, the view at `./view/index.html`:
+Finally, the view at `./views/index.erb`:
 
-```ruby
+```erb
 <% @posts.each do |post| %>
   <h3><%= post.title %></h3>
   <p><%= post.body %></p>

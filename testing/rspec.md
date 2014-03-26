@@ -1,8 +1,7 @@
-RSpec
----------
+# RSpec
 
 [RSpec][rs] is the main competitor to Test::Unit. It is feature rich and
-pleasant to read, but to heavy for some. Therefore most other frameworks
+pleasant to read, but too heavy for some. Therefore most other frameworks
 mentioned here (except Minitest, Test::Unit and Cucumber) try to adopt its API
 without its inner complexity.
 
@@ -13,6 +12,8 @@ In your spec file or your spec helper, you can setup `Rack::Test` like this:
 require 'rack/test'
 
 require File.expand_path '../../my-app.rb', __FILE__
+
+ENV['RACK_ENV'] = 'test'
 
 module RSpecMixin
   include Rack::Test::Methods
@@ -25,7 +26,7 @@ RSpec.configure { |c| c.include RSpecMixin }
 Spec::Runner.configure { |c| c.include RSpecMixin }
 ```
 
-If your app was defined using the [modular style](http://www.sinatrarb.com/intro.html#Sinatra::Base%20-%20Middleware,%20Libraries,%20and%20Modular%20Apps), use
+If your app was defined using the [modular style][modular], use
 
 ```ruby
 def app() described_class end
@@ -51,16 +52,17 @@ describe "My Sinatra Application" do
 end
 ```
 
-**RSpec 2.x Resources**
+## RSpec 2.x Resources
 
 *   [RSpec 2.x Docs](http://relishapp.com/rspec)
-*   [Source on github](https://github.com/rspec/rspec)
+*   [Source on GitHub](https://github.com/rspec/rspec)
 *   [Resources for RSpec 2.x developers/contributors](https://github.com/rspec/rspec-dev)
 
-**RSpec 1.x Resources**
+## RSpec 1.x Resources
 
 *   [RSpec 1.x Docs](http://rspec.info/)
-*   [Source on github](https://github.com/dchelimsky/rspec)
+*   [Source on GitHub](https://github.com/dchelimsky/rspec)
 *   [Resources for RSpec 1.x developers/contributors](https://github.com/dchelimsky/rspec-dev)
 
-
+[rs]: http://rspec.info
+[modular]: http://www.sinatrarb.com/intro.html#Sinatra::Base%20-%20Middleware,%20Libraries,%20and%20Modular%20Apps

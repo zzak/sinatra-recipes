@@ -1,11 +1,10 @@
-Minitest
---------
+# Minitest
 
-Since Ruby 1.9, [Minitest](http://rubydoc.info/gems/minitest/2.0.1/frames) is
+Since Ruby 1.9, [Minitest](https://github.com/seattlerb/minitest) is
 shipped with the standard library. If you want to use it on 1.8, it is still
-installable via Rubygems.
+available via Rubygems.
 
-After installing Minitest, setting it up works similar to `Test::Unit`:
+After installing Minitest, setting it up works similar to `Test::Unit`.
 
 If you have multiple test files, you could create a test helper file and do
 all the setup in there:
@@ -41,7 +40,7 @@ class MyTest < MiniTest::Unit::TestCase
 end
 ```
 
-If your app was defined using the [modular style](http://www.sinatrarb.com/intro.html#Sinatra::Base%20-%20Middleware,%20Libraries,%20and%20Modular%20Apps), use 
+If your app was defined using the [modular style][modular-style], use
 
 ```ruby
 def app
@@ -49,7 +48,7 @@ def app
 end
 ```
 
-instead of 
+instead of
 
 ```ruby
 def app
@@ -57,7 +56,7 @@ def app
 end
 ```
 
-### Specs and Benchmarks with Minitest
+## Specs and Benchmarks with Minitest
 
 **Specs**
 
@@ -72,8 +71,8 @@ end
 
 describe "my example app" do
   it "should successfully return a greeting" do
-    get '/' 
-    assert_equal 'Welcome to my page!', last_response.body 
+    get '/'
+    last_response.body.must_include 'Welcome to my page!'
   end
 end
 ```
@@ -96,7 +95,7 @@ describe "my example app" do
   bench_performance_linear "welcome message", 0.9999 do |n|
     n.times do
       get '/'
-      assert_equal 'Welcome to my page!', last_response.body
+      last_response.body.must_include 'Welcome to my page!'
     end
   end
 end
@@ -119,13 +118,10 @@ Now run your MiniSpecs with `rake test`.
 
 More on [Rake::TestTask](http://rake.rubyforge.org/classes/Rake/TestTask.html)
 
-
-**MiniTest Resources**
+## MiniTest Resources
 
 *   [Source on github](https://github.com/seattlerb/minitest)
-*   [Documentation](http://rdoc.info/gems/minitest/2.0.2/frames)
-*   [Official Blog Archive](http://blog.zenspider.com/minitest/) 
-*   [1.9.2 Stdlib Documentation](http://rdoc.info/stdlib/minitest/1.9.2/frames)
-*   [Bootspring MiniTest Blog Post](http://www.bootspring.com/2010/09/22/minitest-rubys-test-framework/)
+*   [Documentation](http://rdoc.info/gems/minitest)
+*   [Official Blog Archive](http://blog.zenspider.com/minitest/)
 
-
+[modular-style]: (http://www.sinatrarb.com/intro.html#Sinatra::Base%20-%20Middleware,%20Libraries,%20and%20Modular%20Apps

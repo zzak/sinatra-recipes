@@ -1,7 +1,7 @@
-CouchDB
--------
+# CouchDB
 
-There are several data modelling libraries for CouchDB. We're going to introduce CouchRest Model.
+There are several data modelling libraries for CouchDB. We're going to introduce
+CouchRest Model.
 
 Require couchrest_model gem in your app:
 
@@ -52,9 +52,9 @@ get '/posts/:title' do
 end
 ```
 
-This will render ./views/posts.erb:
+This will render `./views/posts.erb`:
 
-```ruby
+```erb
 <% for post in @posts %>
   <div>
     <h1><%= post.title %></h1>
@@ -63,4 +63,5 @@ This will render ./views/posts.erb:
 <% end %>
 ```
 
-Full documentation on [CouchRest and CouchRest Model](http://www.couchrest.info/).
+Full documentation on [CouchRest and CouchRest
+Model](http://www.couchrest.info/).

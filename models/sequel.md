@@ -1,5 +1,4 @@
-Sequel
-------
+# Sequel
 
 Require the Sequel gem in your app:
 
@@ -12,6 +11,7 @@ require 'sequel'
 Use a simple in-memory DB:
 
 ```ruby
+require 'sqlite3'
 DB = Sequel.sqlite
 ```
 
