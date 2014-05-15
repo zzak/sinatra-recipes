@@ -212,7 +212,7 @@ html
           - if @readme
             h3 Did we miss something?
             p
-             | It's very possible we've left something out, that's why we need your help!
+             | It's very possible we've left something out, that's why we need your help! 
              | This is a community driven project after all. Feel free to fork the project 
              | and send us a pull request to get your recipe or tutorial included in the book. 
             p 
